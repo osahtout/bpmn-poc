@@ -120,7 +120,11 @@ a:link {
   border-radius: 4px;
   cursor: pointer;
 }
-
+*/
 .buttons input[type=submit]:hover {
   background-color: #45a049;
-} */
+}
+
+.highlight:not(.djs-connection) .djs-visual > :nth-child(1) {
+  fill: green !important; /* color elements as green */
+}

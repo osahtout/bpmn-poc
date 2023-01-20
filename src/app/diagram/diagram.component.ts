@@ -14,35 +14,25 @@ import {
 import { HttpClient } from '@angular/common/http';
 import { map, switchMap } from 'rxjs/operators';
 
-/**
- * You may include a different variant of BpmnJS:
- *
- * bpmn-viewer  - displays BPMN diagrams without the ability
- *                to navigate them
- * bpmn-modeler - bootstraps a full-fledged BPMN editor
- */
-// import * as BpmnJS from 'bpmn-js/dist/bpmn-modeler.production.min.js';
+const propertiesPanelModule = require('@bpmn-io/properties-panel');
 const BpmnJS = require('bpmn-js/dist/bpmn-modeler.production.min.js');
-const mondeler = require('bpmn-js/lib/Modeler');
+const Modeler = require('bpmn-js/lib/Modeler.js');
+
+const BpmnColorPickerModule = require('bpmn-js-color-picker');
 
 import { from, Observable, Subscription } from 'rxjs';
 
+
+
 @Component({
   selector: 'app-diagram',
-  template: `
-    <div #ref class="diagram-container"></div>
-  `,
-  styles: [
-    `
-      .diagram-container {
-        height: 100%;
-        width: 100%;
-      }
-    `
-  ]
+ templateUrl: './diagram.component.html',
+  styleUrls: ['./diagram.component.css']
 })
 export class DiagramComponent implements AfterContentInit, OnChanges, OnDestroy {
   private bpmnJS: typeof BpmnJS;
+  private modeler: typeof Modeler;
+  private propertiesPanelModule: typeof propertiesPanelModule;
 
   @ViewChild('ref', { static: true }) private el: ElementRef;
   @Output() private importDone: EventEmitter<any> = new EventEmitter();
@@ -53,12 +43,39 @@ export class DiagramComponent implements AfterContentInit, OnChanges, OnDestroy 
 
     this.bpmnJS = new BpmnJS();
 
+    // this.bpmnJS.get('canvas').zoom('fit-viewport');
+
+    const mod = this.bpmnJS.get('modeling');
+
+    mod.setColor(['sid-52EB1772-F36E-433E-8F5B-D5DFD26E6F26'], {
+      stroke: 'blue',
+      fill: 'green'
+    })
+
+    // this.modeler = new Modeler();
+
+    // const mod = modeler.get('modeling');
+
+    // mod.setColor([], {
+    //   stroke: 'green',
+    //   fill: 'yellow'
+    // });
     // this.bpmnJS.on('import.done', ({ error }: any) => {
     //   if (!error) {
     //     this.bpmnJS.get('canvas').zoom('fit-viewport');
     //   }
     // });
   }
+
+  // ngOnInit(): void {
+  //   this.modeler = new Modeler({
+  //     container: '#canvas',
+  //     propertiesPanel: {
+  //       parent: '#properties',
+  //     },
+  //   });
+  //   // this.load();
+  // }
 
   ngAfterContentInit(): void {
     this.bpmnJS.attachTo(this.el.nativeElement);
@@ -110,4 +127,12 @@ export class DiagramComponent implements AfterContentInit, OnChanges, OnDestroy 
   private importDiagram(xml: string): Observable<{warnings: Array<any>}> {
     return from(this.bpmnJS.importXML(xml) as Promise<{warnings: Array<any>}>);
   }
+
+  async openDiagram(xml: any) {
+    try {
+      await this.bpmnJS.importXML(xml);
+    } catch (err) {
+        console.error(err);
+    }
+}
 }
