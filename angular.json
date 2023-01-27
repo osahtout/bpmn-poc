@@ -27,7 +27,10 @@
             "styles": [
               "src/styles.css"
             ],
-            "scripts": []
+            "scripts": [
+              "bpmn-js/dist/bpmn-modeler.production.min.js",
+              "bpmn-js-properties-panel/dist/bpmn-js-properties-panel.umd.js"
+            ]
           },
           "configurations": {
             "production": {
