@@ -1,15 +1,13 @@
-<!-- <div #ref class="diagram-container">
-
-<div class="modeler">
-    <div id="canvas"></div>
-    <div class="properties-panel" id="properties"></div>
-</div>
-
-</div> -->
-
-  <div #ref class="diagram-container"  id="js-drop-zone">
+<div #ref class="diagram-container" id="js-drop-zone">
+    <ng-container style="margin: 10px">
+        <h4 fd-form-header>Diagram Inputs</h4>
+        <br />
+        <div fd-form-item>
+            <label fd-form-label for="input-1">Input information!</label>
+            <input fd-form-control type="text" id="input-1" placeholder="Put your input here" />
+        </div>
+    </ng-container>
     <button (click)="openDiagram('../../assets/colors.bpmn')"></button>
     <div #canvas class="canvas" id="js-canvas"></div>
     <div class="properties-panel" id="js-properties-panel"></div>
-  </div>
-
+</div>
