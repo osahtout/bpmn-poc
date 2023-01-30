@@ -7,8 +7,9 @@ import { Component } from '@angular/core'
 })
 export class AppComponent {
     title = 'bpmn-js-angular'
-    // diagramUrl = 'https://cdn.staticaly.com/gh/bpmn-io/bpmn-js-examples/dfceecba/starter/diagram.bpmn';
-    diagramUrl = 'https://bpmn.io/assets/attachments/blog/2016/colors.bpmn'
+    diagramUrl = '../assets/empty.bpmn'
+    diagramUrl2 = 'https://cdn.staticaly.com/gh/bpmn-io/bpmn-js-examples/dfceecba/starter/diagram.bpmn'
+    diagramUrl3 = '../assets/colors.bpmn'
     importError?: Error
 
     handleImported(event: any) {
@@ -17,7 +18,6 @@ export class AppComponent {
         if (type === 'success') {
             console.log(`Rendered diagram (%s warnings)`, warnings.length)
         }
-
         if (type === 'error') {
             console.error('Failed to render diagram', error)
         }
