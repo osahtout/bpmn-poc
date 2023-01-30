@@ -14,6 +14,7 @@ import {
 import { HttpClient } from '@angular/common/http'
 import { map, switchMap } from 'rxjs/operators'
 import { from, Observable, Subscription } from 'rxjs'
+import { FormArray, FormBuilder, FormControl, FormGroup, Validators } from '@angular/forms'
 
 import BpmnJS from 'bpmn-js/dist/bpmn-modeler.production.min.js'
 
@@ -24,18 +25,28 @@ import BpmnJS from 'bpmn-js/dist/bpmn-modeler.production.min.js'
 })
 export class DiagramComponent implements AfterContentInit, OnChanges, OnDestroy {
     private bpmnJS: typeof BpmnJS
+    myForm: FormGroup
+    arr: FormArray
 
     @ViewChild('ref', { static: true }) private el: ElementRef
     @Output() private importDone: EventEmitter<any> = new EventEmitter()
 
     @Input() url!: string
 
-    constructor(private http: HttpClient) {
+    constructor(private http: HttpClient, private fb: FormBuilder) {
         this.bpmnJS = new BpmnJS()
 
         this.bpmnJS.on('element.click', (event: any) => {
             const element = event.element
-            console.log(element.id)
+            // console.log(element.id)
+            this.myForm.get('inputControl')?.setValue(element.id)
+        })
+
+        this.arr = this.fb.array([this.createItem()])
+        this.myForm = this.fb.group({
+            inputControl: new FormControl('', Validators.required),
+            disabledInputControl: new FormControl({ value: 'initial value', disabled: true }, Validators.required),
+            arr: this.arr,
         })
     }
 
@@ -53,6 +64,22 @@ export class DiagramComponent implements AfterContentInit, OnChanges, OnDestroy 
     ngOnDestroy(): void {
         this.bpmnJS.destroy()
     }
+
+    /**
+     * This are functions related to the form
+     */
+    createItem(): FormGroup {
+        return this.fb.group({
+            primaryInput: [''],
+            secondaryInput: [''],
+        })
+    }
+
+    addItem(): void {
+        this.arr.push(this.createItem())
+    }
+
+    onSubmit(): void {}
 
     /**
      * Load diagram from URL and emit completion event
