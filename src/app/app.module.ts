@@ -1,22 +1,17 @@
-import { NgModule } from '@angular/core';
-import { BrowserModule } from '@angular/platform-browser';
+import { NgModule } from '@angular/core'
+import { BrowserModule } from '@angular/platform-browser'
 
-import { AppRoutingModule } from './app-routing.module';
-import { AppComponent } from './app.component';
-import { DiagramComponent } from "./diagram/diagram.component";
-import { HttpClientModule } from '@angular/common/http';
+import { AppRoutingModule } from './app-routing.module'
+import { AppComponent } from './app.component'
+import { DiagramComponent } from './diagram/diagram.component'
+import { HttpClientModule } from '@angular/common/http'
+import { BrowserAnimationsModule } from '@angular/platform-browser/animations'
+import { FormModule } from '@fundamental-ngx/core/form'
 
 @NgModule({
-    declarations: [
-        AppComponent,
-        DiagramComponent
-    ],
+    declarations: [AppComponent, DiagramComponent],
     providers: [],
     bootstrap: [AppComponent],
-    imports: [
-        BrowserModule,
-        AppRoutingModule,
-        HttpClientModule
-    ]
+    imports: [BrowserAnimationsModule, BrowserModule, AppRoutingModule, HttpClientModule, FormModule],
 })
-export class AppModule { }
+export class AppModule {}
